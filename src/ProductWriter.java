@@ -32,7 +32,24 @@ public class ProductWriter {
 
             done = SafeInput.getYNConfirm(in, "Are you finished entering records?");
 
-            
+            record.add(ID + ", " + name + ", " + description + ", " + cost);
         }while(!done);
+
+        File workingDirectory = new File(System.getProperty("user.dir"));
+        Path file = Paths.get(workingDirectory.getPath() + "\\src\\ProductTestData.txt");
+
+        try {
+            OutputStream out = new BufferedOutputStream(Files.newOutputStream(file, CREATE));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+
+            for(String r : record) {
+                writer.write(r, 0, r.length());
+                writer.newLine();
+            }
+            writer.close();
+            System.out.println("Data file written!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
